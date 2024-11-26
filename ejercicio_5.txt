@@ -1,0 +1,32 @@
+ejercicio_5:
+
+1_ INSERT INTO pacientes (nro_ss, nombre, apellido, domicilio, codigo_postal, telefono, nro_historial_clinico, observaciones)  
+VALUES (22558, 'Antonio', 'Magallanes', 'Dos Pindo 260', 3640, NULL, 1932, NULL);
+
+2_UPDATE pacientes  
+SET telefono = '3745-589174'  
+WHERE nro_ss = 22558;
+
+3_ SELECT CONCAT(apellido, ', ', nombre) AS paciente, 
+observaciones AS observacion_registrada
+FROM pacientes
+WHERE observaciones IS NOT NULL;
+
+4_SELECT CONCAT(p.apellido, ', ', p.nombre) AS paciente, 
+i.especialidad_requerida AS especialidad
+FROM pacientes p INNER JOIN ingresos i ON p.nro_ss = i.nro_ss;
+
+5_DELETE FROM medicos
+WHERE id_medico NOT IN (SELECT DISTINCT id_medico
+FROM ingresos);
+
+6_ SELECT i.numero_cama AS numero_cama, COUNT(i.numero_cama) AS usos
+FROM ingresos i
+GROUP BY i .numero_cama ORDER BY usos DESC;
+
+7_SELECT 
+CONCAT(p.apellido, ', ', p.nombre) AS paciente, COUNT(i.nro_ss) AS cantidad_ingresos
+FROM pacientes p INNER JOIN ingresos i ON p.nro_ss = i.nro_ss
+GROUP BY p.apellido, p.nombre
+HAVING COUNT(i.nro_ss) >= 4
+ORDER BY cantidad_ingresos DESC;
